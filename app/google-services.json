@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "111193224827",
+    "project_id": "calculator-1fdb2",
+    "storage_bucket": "calculator-1fdb2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111193224827:android:e8dba4f640d6014b3694de",
+        "android_client_info": {
+          "package_name": "com.cyberknightsolutions.calculator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCACeWp-w9hUj-AiTHgBAsSv5rH63WTI58"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

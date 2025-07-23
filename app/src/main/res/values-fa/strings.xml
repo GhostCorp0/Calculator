@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name_display">ماشین حساب</string>
+    <string name="settings_general_theme">تم</string>
+    <string name="menu_about">درباره</string>
+</resources>

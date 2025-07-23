@@ -1,0 +1,48 @@
+[versions]
+agp = "8.4.2"
+androidslidinguppanel = "4.6.1"
+appcompat = "1.7.0"
+constraintlayout = "2.1.4"
+coreKtx = "1.13.1"
+espressoCore = "3.6.1"
+gson = "2.10.1"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+lifecycleViewmodelKtx = "2.8.3"
+material = "1.12.0"
+preferenceKtx = "1.2.1"
+kotlin = "2.0.0"
+runtime = "1.6.8"
+googleGmsGoogleServices = "4.4.2"
+firebaseAnalytics = "22.2.0"
+firebaseCrashlytics = "19.4.0"
+googleFirebaseCrashlytics = "3.0.3"
+firebaseMessaging = "24.1.0"
+firebaseInappmessagingDisplay = "21.0.1"
+firebaseConfig = "22.1.0"
+
+[libraries]
+androidslidinguppanel = { module = "com.github.hannesa2:AndroidSlidingUpPanel", version.ref = "androidslidinguppanel" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
+androidx-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "runtime" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+junit = { module = "junit:junit", version.ref = "junit" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalytics" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
+firebase-inappmessaging-display = { group = "com.google.firebase", name = "firebase-inappmessaging-display", version.ref = "firebaseInappmessagingDisplay" }
+firebase-config = { group = "com.google.firebase", name = "firebase-config", version.ref = "firebaseConfig" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
+google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "googleFirebaseCrashlytics" }

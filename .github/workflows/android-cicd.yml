@@ -45,9 +45,6 @@ jobs:
           name: app-release.aab
           path: app/build/outputs/bundle/release/
 
-      - name: Build Signed Release Bundle
-        run: ./gradlew bundleRelease
-
       - name: Publish to Play Store
         uses: r0adkll/upload-google-play@v1
         with:

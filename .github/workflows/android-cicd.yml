@@ -31,6 +31,34 @@ jobs:
           name: app-release.aab
           path: app/build/outputs/bundle/release/app-release.aab
 
+      - name: Send email on success
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: amansingh08088@gmail.com
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: "✅ Build Succeeded: ${{ github.workflow }} #${{ github.run_number }}"
+          to: amansingh08088@gmail.com
+          from: GitHub Actions <amansingh08088@gmail.com>
+          body: |
+            The workflow ${{ github.workflow }} run #${{ github.run_number }} succeeded.\nSee details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+      - name: Send email on failure
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: amansingh08088@gmail.com
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: "❌ Build Failed: ${{ github.workflow }} #${{ github.run_number }}"
+          to: amansingh08088@gmail.com
+          from: GitHub Actions <amansingh08088@gmail.com>
+          body: |
+            The workflow ${{ github.workflow }} run #${{ github.run_number }} failed.\nSee details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
   publish:
     name: Publish to Play Store
     needs: build
@@ -53,4 +81,32 @@ jobs:
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: production
         env:
-          SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }} 
+          SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+
+      - name: Send email on success
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: amansingh08088@gmail.com
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: "✅ Publish Succeeded: ${{ github.workflow }} #${{ github.run_number }}"
+          to: amansingh08088@gmail.com
+          from: GitHub Actions <amansingh08088@gmail.com>
+          body: |
+            The workflow ${{ github.workflow }} run #${{ github.run_number }} published to Play Store successfully.\nSee details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+      - name: Send email on failure
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: amansingh08088@gmail.com
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: "❌ Publish Failed: ${{ github.workflow }} #${{ github.run_number }}"
+          to: amansingh08088@gmail.com
+          from: GitHub Actions <amansingh08088@gmail.com>
+          body: |
+            The workflow ${{ github.workflow }} run #${{ github.run_number }} failed to publish to Play Store.\nSee details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} 

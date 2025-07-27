@@ -42,8 +42,28 @@ jobs:
           subject: "✅ Build Succeeded: ${{ github.workflow }} #${{ github.run_number }}"
           to: amansingh08088@gmail.com
           from: GitHub Actions <amansingh08088@gmail.com>
+          content_type: text/html
           body: |
-            The workflow ${{ github.workflow }} run #${{ github.run_number }} succeeded.\nSee details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;border:1px solid #eee;padding:24px;background:#fafbfc;">
+              <img src="https://cdn.pixabay.com/photo/2017/01/10/19/05/banner-1974011_1280.jpg" alt="CI/CD Banner" style="width:100%;max-height:120px;object-fit:cover;border-radius:8px 8px 0 0;"/>
+              <h2 style="color:#2e7d32;">🎉 Build Succeeded!</h2>
+              <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Success" width="64" style="display:block;margin:16px auto;"/>
+              <p>Hi Aman,</p>
+              <p>Your workflow <b>${{ github.workflow }}</b> run <b>#${{ github.run_number }}</b> has completed <span style="color:#2e7d32;font-weight:bold;">successfully</span>!</p>
+              <ul>
+                <li><b>Repository:</b> ${{ github.repository }}</li>
+                <li><b>Branch:</b> ${{ github.ref_name }}</li>
+                <li><b>Commit:</b> ${{ github.sha }}</li>
+                <li><b>Triggered by:</b> ${{ github.actor }}</li>
+              </ul>
+              <p>View the full details and download artifacts here:</p>
+              <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" style="display:inline-block;padding:10px 20px;background:#2e7d32;color:#fff;text-decoration:none;border-radius:4px;">View Workflow Run</a>
+              <p style="margin-top:32px;">Best regards,<br/>OpenCalc CI/CD Bot</p>
+              <hr style="margin:32px 0;"/>
+              <footer style="text-align:center;color:#888;font-size:12px;">
+                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968705.png" alt="Android" width="32" style="vertical-align:middle;"/> Powered by GitHub Actions
+              </footer>
+            </div>
 
       - name: Send email on failure
         if: failure()
@@ -56,8 +76,28 @@ jobs:
           subject: "❌ Build Failed: ${{ github.workflow }} #${{ github.run_number }}"
           to: amansingh08088@gmail.com
           from: GitHub Actions <amansingh08088@gmail.com>
+          content_type: text/html
           body: |
-            The workflow ${{ github.workflow }} run #${{ github.run_number }} failed.\nSee details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;border:1px solid #eee;padding:24px;background:#fff3f3;">
+              <img src="https://cdn.pixabay.com/photo/2017/01/10/19/05/banner-1974011_1280.jpg" alt="CI/CD Banner" style="width:100%;max-height:120px;object-fit:cover;border-radius:8px 8px 0 0;"/>
+              <h2 style="color:#c62828;">❌ Build Failed</h2>
+              <img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" alt="Failure" width="64" style="display:block;margin:16px auto;"/>
+              <p>Hi Aman,</p>
+              <p>Your workflow <b>${{ github.workflow }}</b> run <b>#${{ github.run_number }}</b> has <span style="color:#c62828;font-weight:bold;">failed</span>.</p>
+              <ul>
+                <li><b>Repository:</b> ${{ github.repository }}</li>
+                <li><b>Branch:</b> ${{ github.ref_name }}</li>
+                <li><b>Commit:</b> ${{ github.sha }}</li>
+                <li><b>Triggered by:</b> ${{ github.actor }}</li>
+              </ul>
+              <p>Please review the logs and resolve any issues:</p>
+              <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" style="display:inline-block;padding:10px 20px;background:#c62828;color:#fff;text-decoration:none;border-radius:4px;">View Workflow Run</a>
+              <p style="margin-top:32px;">Best regards,<br/>OpenCalc CI/CD Bot</p>
+              <hr style="margin:32px 0;"/>
+              <footer style="text-align:center;color:#888;font-size:12px;">
+                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968705.png" alt="Android" width="32" style="vertical-align:middle;"/> Powered by GitHub Actions
+              </footer>
+            </div>
 
   publish:
     name: Publish to Play Store
@@ -94,8 +134,28 @@ jobs:
           subject: "✅ Publish Succeeded: ${{ github.workflow }} #${{ github.run_number }}"
           to: amansingh08088@gmail.com
           from: GitHub Actions <amansingh08088@gmail.com>
+          content_type: text/html
           body: |
-            The workflow ${{ github.workflow }} run #${{ github.run_number }} published to Play Store successfully.\nSee details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;border:1px solid #eee;padding:24px;background:#fafbfc;">
+              <img src="https://cdn.pixabay.com/photo/2017/01/10/19/05/banner-1974011_1280.jpg" alt="CI/CD Banner" style="width:100%;max-height:120px;object-fit:cover;border-radius:8px 8px 0 0;"/>
+              <h2 style="color:#2e7d32;">✅ Publish Succeeded!</h2>
+              <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Success" width="64" style="display:block;margin:16px auto;"/>
+              <p>Hi Aman,</p>
+              <p>Your workflow <b>${{ github.workflow }}</b> run <b>#${{ github.run_number }}</b> has <span style="color:#2e7d32;font-weight:bold;">successfully published</span> to the Play Store!</p>
+              <ul>
+                <li><b>Repository:</b> ${{ github.repository }}</li>
+                <li><b>Branch:</b> ${{ github.ref_name }}</li>
+                <li><b>Commit:</b> ${{ github.sha }}</li>
+                <li><b>Triggered by:</b> ${{ github.actor }}</li>
+              </ul>
+              <p>View the Play Store publishing details here:</p>
+              <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" style="display:inline-block;padding:10px 20px;background:#2e7d32;color:#fff;text-decoration:none;border-radius:4px;">View Workflow Run</a>
+              <p style="margin-top:32px;">Best regards,<br/>OpenCalc CI/CD Bot</p>
+              <hr style="margin:32px 0;"/>
+              <footer style="text-align:center;color:#888;font-size:12px;">
+                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968705.png" alt="Android" width="32" style="vertical-align:middle;"/> Powered by GitHub Actions
+              </footer>
+            </div>
 
       - name: Send email on failure
         if: failure()
@@ -108,5 +168,25 @@ jobs:
           subject: "❌ Publish Failed: ${{ github.workflow }} #${{ github.run_number }}"
           to: amansingh08088@gmail.com
           from: GitHub Actions <amansingh08088@gmail.com>
+          content_type: text/html
           body: |
-            The workflow ${{ github.workflow }} run #${{ github.run_number }} failed to publish to Play Store.\nSee details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} 
+            <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;border:1px solid #eee;padding:24px;background:#fff3f3;">
+              <img src="https://cdn.pixabay.com/photo/2017/01/10/19/05/banner-1974011_1280.jpg" alt="CI/CD Banner" style="width:100%;max-height:120px;object-fit:cover;border-radius:8px 8px 0 0;"/>
+              <h2 style="color:#c62828;">❌ Publish Failed</h2>
+              <img src="https://cdn-icons-png.flaticon.com/512/463/463612.png" alt="Failure" width="64" style="display:block;margin:16px auto;"/>
+              <p>Hi Aman,</p>
+              <p>Your workflow <b>${{ github.workflow }}</b> run <b>#${{ github.run_number }}</b> <span style="color:#c62828;font-weight:bold;">failed to publish to the Play Store</span>.</p>
+              <ul>
+                <li><b>Repository:</b> ${{ github.repository }}</li>
+                <li><b>Branch:</b> ${{ github.ref_name }}</li>
+                <li><b>Commit:</b> ${{ github.sha }}</li>
+                <li><b>Triggered by:</b> ${{ github.actor }}</li>
+              </ul>
+              <p>Please review the logs and resolve any issues:</p>
+              <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" style="display:inline-block;padding:10px 20px;background:#c62828;color:#fff;text-decoration:none;border-radius:4px;">View Workflow Run</a>
+              <p style="margin-top:32px;">Best regards,<br/>OpenCalc CI/CD Bot</p>
+              <hr style="margin:32px 0;"/>
+              <footer style="text-align:center;color:#888;font-size:12px;">
+                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968705.png" alt="Android" width="32" style="vertical-align:middle;"/> Powered by GitHub Actions
+              </footer>
+            </div> 

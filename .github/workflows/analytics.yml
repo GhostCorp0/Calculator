@@ -21,7 +21,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests pandas matplotlib seaborn plotly
+          pip install requests pandas matplotlib seaborn plotly kaleido
 
       - name: Collect workflow metrics
         run: |

@@ -96,7 +96,13 @@ class CICDReportGenerator:
         )
         
         fig.write_html(f'{self.reports_dir}/success_rate.html')
-        fig.write_image(f'{self.reports_dir}/success_rate.png', width=800, height=400)
+        
+        # Try to save PNG, but don't fail if it doesn't work
+        try:
+            fig.write_image(f'{self.reports_dir}/success_rate.png', width=800, height=400)
+        except Exception as e:
+            print(f"Warning: Could not save PNG image: {e}")
+            print("HTML version will still work fine.")
     
     def create_build_time_trend(self, runs_df):
         """Create build time trend chart"""
@@ -139,7 +145,13 @@ class CICDReportGenerator:
         )
         
         fig.write_html(f'{self.reports_dir}/build_time_trend.html')
-        fig.write_image(f'{self.reports_dir}/build_time_trend.png', width=800, height=400)
+        
+        # Try to save PNG, but don't fail if it doesn't work
+        try:
+            fig.write_image(f'{self.reports_dir}/build_time_trend.png', width=800, height=400)
+        except Exception as e:
+            print(f"Warning: Could not save PNG image: {e}")
+            print("HTML version will still work fine.")
     
     def create_job_breakdown(self, jobs_df):
         """Create job breakdown visualization"""
@@ -177,7 +189,13 @@ class CICDReportGenerator:
         
         fig.update_layout(height=400, title_text="Job Analysis")
         fig.write_html(f'{self.reports_dir}/job_breakdown.html')
-        fig.write_image(f'{self.reports_dir}/job_breakdown.png', width=1200, height=400)
+        
+        # Try to save PNG, but don't fail if it doesn't work
+        try:
+            fig.write_image(f'{self.reports_dir}/job_breakdown.png', width=1200, height=400)
+        except Exception as e:
+            print(f"Warning: Could not save PNG image: {e}")
+            print("HTML version will still work fine.")
     
     def create_daily_activity_chart(self, runs_df):
         """Create daily activity heatmap"""
@@ -206,7 +224,13 @@ class CICDReportGenerator:
         )
         
         fig.write_html(f'{self.reports_dir}/daily_activity.html')
-        fig.write_image(f'{self.reports_dir}/daily_activity.png', width=800, height=400)
+        
+        # Try to save PNG, but don't fail if it doesn't work
+        try:
+            fig.write_image(f'{self.reports_dir}/daily_activity.png', width=800, height=400)
+        except Exception as e:
+            print(f"Warning: Could not save PNG image: {e}")
+            print("HTML version will still work fine.")
     
     def create_summary_table(self, summary_data):
         """Create summary statistics table"""

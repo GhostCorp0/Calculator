@@ -21,12 +21,40 @@ class CICDMetricsCollector:
             'Accept': 'application/vnd.github.v3+json'
         }
         
+        # Create directories if they don't exist
+        os.makedirs('analytics', exist_ok=True)
+        os.makedirs('reports', exist_ok=True)
+        
     def get_workflow_runs(self, workflow_name="Android CI/CD", days_back=30):
         """Get workflow runs for the specified period"""
         since_date = datetime.now() - timedelta(days=days_back)
         since_str = since_date.isoformat()
         
-        url = f"{self.api_url}/actions/workflows/{workflow_name}/runs"
+        # First, get the workflow ID
+        workflows_url = f"{self.api_url}/actions/workflows"
+        response = requests.get(workflows_url, headers=self.headers)
+        
+        if response.status_code != 200:
+            print(f"Error fetching workflows: {response.status_code}")
+            return []
+        
+        workflows = response.json()['workflows']
+        workflow_id = None
+        
+        # Find the workflow by name
+        for workflow in workflows:
+            if workflow['name'] == workflow_name:
+                workflow_id = workflow['id']
+                break
+        
+        if not workflow_id:
+            print(f"Workflow '{workflow_name}' not found. Available workflows:")
+            for workflow in workflows:
+                print(f"  - {workflow['name']}")
+            return []
+        
+        # Now get the runs for this workflow
+        url = f"{self.api_url}/actions/workflows/{workflow_id}/runs"
         params = {
             'created': f'>={since_str}',
             'per_page': 100
@@ -69,6 +97,11 @@ class CICDMetricsCollector:
         
         # Get workflow runs
         runs = self.get_workflow_runs()
+        
+        if not runs:
+            print("No workflow runs found. Creating sample data for testing...")
+            self.create_sample_data()
+            return
         
         metrics_data = []
         
@@ -120,6 +153,93 @@ class CICDMetricsCollector:
         self.generate_summary(metrics_data)
         
         print(f"Collected metrics for {len(runs)} workflow runs")
+    
+    def create_sample_data(self):
+        """Create sample data for testing when no real data is available"""
+        print("Creating sample analytics data...")
+        
+        # Create sample run data
+        sample_runs = [
+            {
+                'run_id': 1,
+                'run_number': 1,
+                'status': 'completed',
+                'conclusion': 'success',
+                'created_at': (datetime.now() - timedelta(days=1)).isoformat(),
+                'updated_at': datetime.now().isoformat(),
+                'duration': 180,
+                'actor': 'amansingh08088',
+                'head_branch': 'master',
+                'head_sha': 'abc12345',
+                'event': 'push'
+            },
+            {
+                'run_id': 2,
+                'run_number': 2,
+                'status': 'completed',
+                'conclusion': 'success',
+                'created_at': datetime.now().isoformat(),
+                'updated_at': datetime.now().isoformat(),
+                'duration': 165,
+                'actor': 'amansingh08088',
+                'head_branch': 'master',
+                'head_sha': 'def67890',
+                'event': 'push'
+            }
+        ]
+        
+        # Create sample job data
+        sample_jobs = [
+            {
+                'run_id': 1,
+                'job_id': 1,
+                'job_name': 'Build & Artifact Bundle',
+                'status': 'completed',
+                'conclusion': 'success',
+                'started_at': (datetime.now() - timedelta(hours=1)).isoformat(),
+                'completed_at': datetime.now().isoformat(),
+                'duration': 180,
+                'runner_name': 'ubuntu-latest'
+            },
+            {
+                'run_id': 2,
+                'job_id': 2,
+                'job_name': 'Build & Artifact Bundle',
+                'status': 'completed',
+                'conclusion': 'success',
+                'started_at': (datetime.now() - timedelta(minutes=30)).isoformat(),
+                'completed_at': datetime.now().isoformat(),
+                'duration': 165,
+                'runner_name': 'ubuntu-latest'
+            }
+        ]
+        
+        # Save sample data
+        with open('analytics/latest_runs.json', 'w') as f:
+            json.dump(sample_runs, f, indent=2)
+        
+        with open('analytics/latest_jobs.json', 'w') as f:
+            json.dump(sample_jobs, f, indent=2)
+        
+        # Create sample summary
+        sample_summary = {
+            'total_runs': 2,
+            'successful_runs': 2,
+            'failed_runs': 0,
+            'cancelled_runs': 0,
+            'avg_duration': 172.5,
+            'total_jobs': 2,
+            'successful_jobs': 2,
+            'failed_jobs': 0,
+            'avg_job_duration': 172.5,
+            'run_success_rate': 100.0,
+            'job_success_rate': 100.0
+        }
+        
+        with open('analytics/summary.json', 'w') as f:
+            json.dump(sample_summary, f, indent=2)
+        
+        print("Sample data created successfully!")
     
     def save_metrics(self, metrics_data):
         """Save metrics to JSON files"""

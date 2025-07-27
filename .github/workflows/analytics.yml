@@ -33,6 +33,31 @@ jobs:
         run: |
           python scripts/generate_report.py
 
+      - name: Create index file for GitHub Pages
+        run: |
+          echo '<!DOCTYPE html>
+          <html>
+          <head>
+              <title>OpenCalc CI/CD Analytics Dashboard</title>
+              <meta http-equiv="refresh" content="0; url=dashboard.html">
+              <style>
+                  body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+                  .loading { color: #666; }
+              </style>
+          </head>
+          <body>
+              <h1>🚀 OpenCalc CI/CD Analytics Dashboard</h1>
+              <p class="loading">Redirecting to dashboard...</p>
+              <p><a href="dashboard.html">Click here if not redirected automatically</a></p>
+          </body>
+          </html>' > reports/index.html
+
+      - name: Upload AAB Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.aab
+          path: app/build/outputs/bundle/release/app-release.aab
+
       - name: Upload analytics artifacts
         uses: actions/upload-artifact@v4
         with:

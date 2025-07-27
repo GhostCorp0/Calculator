@@ -1,0 +1,11 @@
+[build]
+  publish = "reports"
+  command = "echo 'Dashboard already built'"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/*"
+  to = "/dashboard.html"
+  status = 200 

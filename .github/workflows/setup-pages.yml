@@ -1,0 +1,103 @@
+name: Setup GitHub Pages
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  setup-pages:
+    name: Setup GitHub Pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Create simple dashboard
+        run: |
+          mkdir -p reports
+          echo '<!DOCTYPE html>
+          <html>
+          <head>
+              <title>OpenCalc CI/CD Analytics Dashboard</title>
+              <style>
+                  body { 
+                      font-family: Arial, sans-serif; 
+                      text-align: center; 
+                      padding: 50px; 
+                      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                      color: white;
+                      margin: 0;
+                      min-height: 100vh;
+                      display: flex;
+                      flex-direction: column;
+                      justify-content: center;
+                  }
+                  .container {
+                      background: rgba(255,255,255,0.1);
+                      padding: 40px;
+                      border-radius: 20px;
+                      backdrop-filter: blur(10px);
+                      max-width: 600px;
+                      margin: 0 auto;
+                  }
+                  h1 { margin-bottom: 20px; font-size: 2.5em; }
+                  p { font-size: 1.2em; margin: 10px 0; }
+                  .status { 
+                      background: #2ecc71; 
+                      padding: 10px 20px; 
+                      border-radius: 25px; 
+                      display: inline-block;
+                      margin: 20px 0;
+                  }
+                  .note { 
+                      background: rgba(255,255,255,0.2); 
+                      padding: 15px; 
+                      border-radius: 10px; 
+                      margin: 20px 0;
+                  }
+              </style>
+          </head>
+          <body>
+              <div class="container">
+                  <h1>🚀 OpenCalc CI/CD Dashboard</h1>
+                  <div class="status">✅ GitHub Pages Setup Complete!</div>
+                  <p>Your analytics dashboard is now ready.</p>
+                  <div class="note">
+                      <strong>Next Steps:</strong><br>
+                      1. Run your CI/CD workflow<br>
+                      2. Analytics will be collected automatically<br>
+                      3. Dashboard will update with real data
+                  </div>
+                  <p>📊 Analytics will appear here after your first build!</p>
+              </div>
+          </body>
+          </html>' > reports/index.html
+
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: reports/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Show deployment URL
+        run: |
+          echo "🌐 Your dashboard is now available at:"
+          echo "${{ steps.deployment.outputs.page_url }}" 

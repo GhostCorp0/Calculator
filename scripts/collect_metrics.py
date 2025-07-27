@@ -106,19 +106,19 @@ class CICDMetricsCollector:
         metrics_data = []
         
         for run in runs:
-            # Basic run metrics
+            # Basic run metrics with error handling
             run_metrics = {
-                'run_id': run['id'],
-                'run_number': run['run_number'],
-                'status': run['status'],
-                'conclusion': run['conclusion'],
-                'created_at': run['created_at'],
-                'updated_at': run['updated_at'],
-                'duration': run['duration'],
-                'actor': run['actor']['login'],
-                'head_branch': run['head_branch'],
-                'head_sha': run['head_sha'][:8],
-                'event': run['event']
+                'run_id': run.get('id', 0),
+                'run_number': run.get('run_number', 0),
+                'status': run.get('status', 'unknown'),
+                'conclusion': run.get('conclusion', 'unknown'),
+                'created_at': run.get('created_at', datetime.now().isoformat()),
+                'updated_at': run.get('updated_at', datetime.now().isoformat()),
+                'duration': run.get('duration', 0) or 0,  # Handle None values
+                'actor': run.get('actor', {}).get('login', 'unknown'),
+                'head_branch': run.get('head_branch', 'unknown'),
+                'head_sha': run.get('head_sha', 'unknown')[:8] if run.get('head_sha') else 'unknown',
+                'event': run.get('event', 'unknown')
             }
             
             # Get job details
@@ -127,15 +127,15 @@ class CICDMetricsCollector:
             
             for job in jobs:
                 job_metric = {
-                    'run_id': run['id'],
-                    'job_id': job['id'],
-                    'job_name': job['name'],
-                    'status': job['status'],
-                    'conclusion': job['conclusion'],
-                    'started_at': job['started_at'],
-                    'completed_at': job['completed_at'],
-                    'duration': job['duration'],
-                    'runner_name': job['runner_name'] if job['runner_name'] else 'Unknown'
+                    'run_id': run.get('id', 0),
+                    'job_id': job.get('id', 0),
+                    'job_name': job.get('name', 'unknown'),
+                    'status': job.get('status', 'unknown'),
+                    'conclusion': job.get('conclusion', 'unknown'),
+                    'started_at': job.get('started_at', datetime.now().isoformat()),
+                    'completed_at': job.get('completed_at', datetime.now().isoformat()),
+                    'duration': job.get('duration', 0) or 0,  # Handle None values
+                    'runner_name': job.get('runner_name', 'Unknown') if job.get('runner_name') else 'Unknown'
                 }
                 job_metrics.append(job_metric)
             
@@ -144,7 +144,7 @@ class CICDMetricsCollector:
                 'jobs': job_metrics
             })
             
-            print(f"Collected metrics for run #{run['run_number']}")
+            print(f"Collected metrics for run #{run.get('run_number', 'unknown')}")
         
         # Save metrics to files
         self.save_metrics(metrics_data)

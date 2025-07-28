@@ -63,9 +63,10 @@ jobs:
       - name: Send Discord notification on success
         if: success()
         uses: Ilshidur/action-discord@0.3.2
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          message: |
+          args: |
             ✅ **Build Succeeded**: ${{ github.workflow }} [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
             **Repo**: `${{ github.repository }}`
             **Branch**: `${{ github.ref_name }}`
@@ -102,12 +103,12 @@ jobs:
       - name: Send Discord notification on failure
         if: failure()
         uses: Ilshidur/action-discord@0.3.2
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          message: |
+          args: |
             ❌ **Build Failed**: ${{ github.workflow }} [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
             **Repo**: `${{ github.repository }}`
             **Branch**: `${{ github.ref_name }}`
             **Commit**: `${{ github.sha }}`
             **By**: `${{ github.actor }}`
-

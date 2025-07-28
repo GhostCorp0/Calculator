@@ -31,6 +31,8 @@ jobs:
           name: app-release.aab
           path: app/build/outputs/bundle/release/app-release.aab
 
+      # --- Email and Discord Notifications ---
+
       - name: Send email on success
         if: success()
         uses: dawidd6/action-send-mail@v3
@@ -57,6 +59,18 @@ jobs:
             
             Best regards,
             OpenCalc CI/CD Bot
+
+      - name: Send Discord notification on success
+        if: success()
+        uses: Ilshidur/action-discord@v1.0.4
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          message: |
+            ✅ **Build Succeeded**: ${{ github.workflow }} [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            **Repo**: `${{ github.repository }}`
+            **Branch**: `${{ github.ref_name }}`
+            **Commit**: `${{ github.sha }}`
+            **By**: `${{ github.actor }}`
 
       - name: Send email on failure
         if: failure()
@@ -85,80 +99,15 @@ jobs:
             Best regards,
             OpenCalc CI/CD Bot
 
-  publish:
-    name: Publish to Play Store
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download AAB Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: app-release.aab
-          path: app/build/outputs/bundle/release/
-
-      - name: Publish to Play Store
-        uses: r0adkll/upload-google-play@v1
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
-          packageName: com.cyberknightsolutions.calculator
-          releaseFiles: app/build/outputs/bundle/release/app-release.aab
-          track: production
-        env:
-          SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
-
-      - name: Send email on success
-        if: success()
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: amansingh08088@gmail.com
-          password: ${{ secrets.GMAIL_APP_PASSWORD }}
-          subject: "✅ Publish Succeeded: ${{ github.workflow }} #${{ github.run_number }}"
-          to: amansingh08088@gmail.com
-          from: GitHub Actions <amansingh08088@gmail.com>
-          body: |
-            Hi Aman,
-            
-            Your workflow ${{ github.workflow }} run #${{ github.run_number }} has successfully published to the Play Store!
-            
-            Publish Details:
-            - Repository: ${{ github.repository }}
-            - Branch: ${{ github.ref_name }}
-            - Commit: ${{ github.sha }}
-            - Triggered by: ${{ github.actor }}
-            
-            View the details here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            
-            Best regards,
-            OpenCalc CI/CD Bot
-
-      - name: Send email on failure
+      - name: Send Discord notification on failure
         if: failure()
-        uses: dawidd6/action-send-mail@v3
+        uses: Ilshidur/action-discord@v1.0.4
         with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: amansingh08088@gmail.com
-          password: ${{ secrets.GMAIL_APP_PASSWORD }}
-          subject: "❌ Publish Failed: ${{ github.workflow }} #${{ github.run_number }}"
-          to: amansingh08088@gmail.com
-          from: GitHub Actions <amansingh08088@gmail.com>
-          body: |
-            Hi Aman,
-            
-            Your workflow ${{ github.workflow }} run #${{ github.run_number }} failed to publish to the Play Store.
-            
-            Publish Details:
-            - Repository: ${{ github.repository }}
-            - Branch: ${{ github.ref_name }}
-            - Commit: ${{ github.sha }}
-            - Triggered by: ${{ github.actor }}
-            
-            Please review the logs and resolve any issues: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            
-            Best regards,
-            OpenCalc CI/CD Bot 
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          message: |
+            ❌ **Build Failed**: ${{ github.workflow }} [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            **Repo**: `${{ github.repository }}`
+            **Branch**: `${{ github.ref_name }}`
+            **Commit**: `${{ github.sha }}`
+            **By**: `${{ github.actor }}`
+

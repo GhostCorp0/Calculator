@@ -46,7 +46,7 @@ jobs:
             --release-notes "Automated build from CI: ${{ github.sha }}" \
             --groups "cicdtesters"
 
-      # --- Email and Discord Notifications ---
+      # --- Email and Discord Notifications --
 
       - name: Send email on success
         if: success()

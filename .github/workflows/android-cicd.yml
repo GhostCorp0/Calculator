@@ -31,7 +31,7 @@ jobs:
           name: app-release.aab
           path: app/build/outputs/bundle/release/app-release.aab
 
-      # --- Firebase App Distribution -----
+      # --- Firebase App Distribution ----
       - name: Install Firebase CLI
         if: success()
         run: npm install -g firebase-tools

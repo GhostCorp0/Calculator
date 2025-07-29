@@ -31,6 +31,21 @@ jobs:
           name: app-release.aab
           path: app/build/outputs/bundle/release/app-release.aab
 
+      # --- Firebase App Distribution ---
+      - name: Install Firebase CLI
+        if: success()
+        run: npm install -g firebase-tools
+
+      - name: Upload AAB to Firebase App Distribution
+        if: success()
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          firebase appdistribution:distribute app/build/outputs/bundle/release/app-release.aab \
+            --app "1:111193224827:android:e8dba4f640d6014b3694de" \
+            --release-notes "Automated build from CI: ${{ github.sha }}" \
+            --groups "cicdtesters"
+
       # --- Email and Discord Notifications ---
 
       - name: Send email on success

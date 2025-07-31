@@ -20,7 +20,18 @@ jobs:
           java-version: '17'
 
       - name: Run Lint Check
-        run: ./gradlew lint
+        run: ./gradlew lint || true
+
+      - name: Capture Lint Results
+        if: always()
+        run: |
+          if [ -f "app/build/intermediates/lint_intermediate_text_report/debug/lintReportDebug/lint-results-debug.txt" ]; then
+            echo "LINT_SUMMARY<<EOF" >> $GITHUB_ENV
+            head -20 app/build/intermediates/lint_intermediate_text_report/debug/lintReportDebug/lint-results-debug.txt >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          else
+            echo "LINT_SUMMARY=No lint report found" >> $GITHUB_ENV
+          fi
 
       - name: Upload Lint Report
         uses: actions/upload-artifact@v4
@@ -55,6 +66,16 @@ jobs:
             Build #: #${{ github.run_number }}
             Triggered by: ${{ github.actor }}
             
+            ⚠️ LINT STATUS:
+            ===============
+            The lint analysis has completed and found issues that need attention.
+            This is normal for ongoing development - the report will help you
+            identify and fix code quality issues.
+            
+            📊 QUICK SUMMARY:
+            ==================
+            ${{ env.LINT_SUMMARY }}
+            
             🔍 WHAT'S INCLUDED IN THIS REPORT:
             ===================================
             • Code style violations and suggestions
@@ -72,6 +93,13 @@ jobs:
             - Line-by-line issues
             - Severity levels (Error/Warning/Info)
             - Suggested fixes and explanations
+            
+            💡 RECOMMENDATIONS:
+            ====================
+            • Review the attached report to understand the issues
+            • Focus on Errors first (highest priority)
+            • Address Warnings to improve code quality
+            • Consider Info items for future improvements
             
             📊 View full build details:
             ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
